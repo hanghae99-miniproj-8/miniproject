@@ -118,6 +118,33 @@
                 }
             })
         }
+
+        function save_word() {
+            $.ajax({
+                type: "POST",
+                url: `/api/save_word`,
+                data: {
+                    word_give : "{{ word }}",
+                    def_give : "{{ result.definitions[0].definition }}"
+                },
+                success: function (response) {
+                    alert(response["msg"])
+                    window.location.href = "{{ word }}?status_give=old"
+                }
+            });
+        }
+
+        function delete_word() {
+            $.ajax({
+                type: "POST",
+                url: `/api/delete_word`,
+                data: {word_give : "{{ word }}"},
+                success: function (response) {
+                    alert(response["msg"])
+                    window.location.href = "{{ word }}?status_give=new"
+                }
+            });
+        }
     </script>
 </head>
 <body>
@@ -127,20 +154,30 @@
         <div class="container">
             <div class="d-flex justify-content-between align-items-end">
                 <div>
-                    <h1 id="word" style="display: inline;">{{ result.name }}</h1>
-                    <h5 id="pronunciation" style="display: inline;">/oul/</h5>
+                    <h1 id="word" style="display: inline;">{{ result.word }}</h1>
+                    {% if result.pronunciation %}
+                        <h5 id="pronunciation" style="display: inline;">/{{ result.pronunciation }}/</h5>
+                    {% endif %}
+
                 </div>
-                <button id="btn-save" class="btn btn-outline-sparta btn-lg"><i class="fa fa-floppy-o" aria-hidden="true"></i></button>
-                <button id="btn-delete" class="btn btn-sparta btn-lg"><i class="fa fa-trash-o" aria-hidden="true"></i>
-</button>
+                {% if status == "new" %}
+                    <button id="btn-save" onclick="save_word()" class="btn btn-outline-sparta btn-lg"><i class="fa fa-floppy-o" aria-hidden="true"></i></button>
+                {% endif %}
+                {% if status == "old" %}
+                    <button id="btn-delete" onclick="delete_word()" class="btn btn-sparta btn-lg"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                {% endif %}
             </div>
             <hr>
             <div id="definitions">
+                {% for definition in result.definitions %}
                 <div style="padding:10px">
-                                <i>${temp_type}</i>
-                                <br>${temp_def}<br>
-                                <span class="example">${temp_exam}</span>
-                            </div>
+                    <i>{{definition.type}}</i>
+                    {% if definition.definition %}
+                        <br>{{definition.definition.encode('ascii','ignore').decode('utf-8')|safe}}<br>
+                    {% endif %}
+                    <span class="example">{{definition.example.encode('ascii','ignore').decode('utf-8')|safe}}</span>
+                </div>
+                {% endfor %}
             </div>
         </div>
     </div>
