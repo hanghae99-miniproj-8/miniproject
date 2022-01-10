@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>Sparta Vocabulary Notebook</title>
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+              integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+              crossorigin="anonymous">
+
+
+
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+                crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+                integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+                crossorigin="anonymous"></script>
+
+    </head>
+    <style>
+        .wrap {
+            background-color: white;
+            min-height: 100vh;
+            padding-bottom: 50px;
+
+
+        }
+
+        .banner {
+            width: 100%;
+            height: 70px;
+
+            background-color: white;
+
+
+            background-position: left;
+            background-size: contain;
+            background-repeat: no-repeat;
+
+
+
+            border-bottom: 5px solid RGBA(232, 52, 78, 0.2);
+
+        }
+        .logo{
+            width: 200px;
+            height: 65px;
+
+            position: absolute;
+            left: 10px;
+
+            background-image: url('{{ url_for("static", filename="logo.png") }}');
+            background-size: contain;
+            background-repeat: no-repeat;
+
+            border-color: white;
+
+            cursor: pointer;
+
+        }
+
+        .user_data{
+            width: 200px;
+            height: 65px;
+
+            position: absolute;
+            right: 10px;
+            border: solid 3px RGBA(232, 52, 78, 0.2);
+
+            font-size: 35px;
+            text-align: center;
+
+        }
+
+    </style>
+    <body>
+        <div class="wrap">
+            <div class="banner">
+                <div>
+                    <img class="logo" onclick="window.location.href = '/'">
+                    <a class="user_data">유저정보</a>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
