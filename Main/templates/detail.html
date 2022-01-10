@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
           crossorigin="anonymous">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -19,6 +20,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
+
     <style>
         .wrap {
             background-color: RGBA(232, 52, 78, 0.2);
@@ -39,7 +41,84 @@
 
             cursor: pointer;
         }
+
+        .container {
+            width: 80%;
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: white;
+
+            border: solid 1px gray;
+            border-radius: 10px;
+        }
+
+        span.example {
+            color: gray;
+            font-size: 14px;
+        }
+
+        .btn-sparta {
+            color: #fff;
+            background-color: #e8344e;
+            border-color: #e8344e;
+        }
+
+        .btn-outline-sparta {
+            color: #e8344e;
+            background-color: transparent;
+            background-image: none;
+            border-color: #e8344e;
+        }
     </style>
+    <script>
+        let word = '{{ word }}'
+        $(document).ready(function () {
+            //get_definitions()
+        })
+
+        function get_definitions() {
+            $.ajax({
+                type: "GET",
+                url: `https://owlbot.info/api/v4/dictionary/${word}`,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Authorization", "Token 54c8a25ffc9d2460bc54412c0b7261225875abd1");
+                },
+                data: {},
+                error: function (xhr, status, error) {
+                    alert("에러 발생!");
+                },
+                success: function (response) {
+                    console.log(response)
+                    $("#word").text(response["word"])
+                    if(response["pronunciation"] == null){
+                        $("#pronunciation").text(``)
+
+                    }
+                    else{
+                        $("#pronunciation").text(`/${response["pronunciation"]}/`)
+                    }
+
+                    let def = response["definitions"]
+                    for(let i = 0; def.length;i++){
+                        let temp_type = def[i]["type"]
+                        let temp_def = def[i]["definition"]
+                        let temp_exam = def[i]["example"]
+
+                        let temp_html =`
+                            <div style="padding:10px">
+                                <i>${temp_type}</i>
+                                <br>${temp_def}<br>
+                                <span class="example">${temp_exam}</span>
+                            </div>
+                        `
+                        $("#definitions").append(temp_html)
+
+                    }
+                }
+            })
+        }
+    </script>
 </head>
 <body>
     <div class="wrap">
@@ -48,20 +127,20 @@
         <div class="container">
             <div class="d-flex justify-content-between align-items-end">
                 <div>
-                    <h1 id="word" style="display: inline;">owl</h1>
+                    <h1 id="word" style="display: inline;">{{ result.name }}</h1>
                     <h5 id="pronunciation" style="display: inline;">/oul/</h5>
                 </div>
-                <button id="btn-save" class="btn btn-outline-sparta btn-lg">save</button>
-                <button id="btn-delete" class="btn btn-sparta btn-lg">delete</button>
+                <button id="btn-save" class="btn btn-outline-sparta btn-lg"><i class="fa fa-floppy-o" aria-hidden="true"></i></button>
+                <button id="btn-delete" class="btn btn-sparta btn-lg"><i class="fa fa-trash-o" aria-hidden="true"></i>
+</button>
             </div>
             <hr>
             <div id="definitions">
                 <div style="padding:10px">
-                    <i>noun</i>
-                    <br>a nocturnal bird of prey with large eyes, a facial disc, a hooked beak, and typically a loud
-                    hooting call.<br>
-                    <span class="example">I love reaching out into that absolute silence, when you can hear the owl or the wind.</span>
-                </div>
+                                <i>${temp_type}</i>
+                                <br>${temp_def}<br>
+                                <span class="example">${temp_exam}</span>
+                            </div>
             </div>
         </div>
     </div>
