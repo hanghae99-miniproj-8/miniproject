@@ -17,7 +17,7 @@ def main():
 
 @app.route('/main')
 def detail():
-    
+
     return render_template("main.html")
 
 
