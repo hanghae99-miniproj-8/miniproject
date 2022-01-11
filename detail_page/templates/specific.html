@@ -136,7 +136,6 @@
         let desc = $("#desc").val();
         let tag = $("#tag").val();
 
-
         $.ajax({
             type: "POST",
             url: "/save",
@@ -150,52 +149,12 @@
             },
             success: function (response) {
                 alert(response["msg"]);
-                console.log(response["tag"])
-                // window.location.href='/'
+                window.location.href='/'
             }
         })
     }
 </script>
 <body>
-<div class="wrap">
-    <div class="banner">
-        <div>
-            <a class="logo" onclick="window.location.href = '/'">Travela</a>
-            <button type="button" class="btn btn-outline-danger logout">Logout</button>
-            <span class="user_data" id="userid">{{ user }}</span>
-            <button type="button" onclick="save()" class="btn btn-outline-danger write_review">저장하기</button>
-        </div>
-    </div>
-    <div class="jumbotron">
-        <div class="input-group input-group-lg">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroup-sizing-lg">제목</span>
-            </div>
-            <input id="title" type="text" class="form-control" aria-label="Large"
-                   aria-describedby="inputGroup-sizing-sm">
-        </div>
-        <br>
-        <div class="input-group input-group-sm mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroup-sizing-sm">위치</span>
-            </div>
-            <input type="text" id="add_url" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-        </div>
-        <div class="input-group input-group-sm mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroup-sizing-sm">사진</span>
-            </div>
-            <input type="text" id="img_url" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-        </div>
-        <textarea id="desc" class="txtBox"></textarea>
-        <div class="input-group input-group-sm mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroup-sizing-sm">해쉬태그</span>
-            </div>
-            <input type="text" id="tag" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-        </div>
-    </div>
-</div>
-</div>
+hi
 </body>
 </html>
