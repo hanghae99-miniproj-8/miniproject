@@ -15,7 +15,11 @@ def main():
 
 @app.route('/detail')
 def detail():
-    return render_template("detail.html")
+    return render_template("detail.html", user="id")
+
+@app.route('/spec')
+def spec():
+    return render_template("specific.html")
 
 @app.route('/save', methods=['POST'])
 def write_review():
@@ -24,9 +28,10 @@ def write_review():
     add_receive = request.form['add_give']
     img_receive = request.form['img_give']
     desc_receive = request.form['desc_give']
-    tag_receive = request.form['tag_give']
+    tag_receive = request.form['tag_give'].split(' ')
 
     doc = {
+        "user": user_receive,
         "title": title_receive,
         "add": add_receive,
         "img": img_receive,
@@ -36,7 +41,10 @@ def write_review():
 
     db.posting.insert_one(doc)
 
-    return jsonify({"msg": "posting completed"})
+    return jsonify({
+        "msg": "posting completed",
+        "tag": tag_receive
+    })
 
 
 if __name__ == '__main__':
