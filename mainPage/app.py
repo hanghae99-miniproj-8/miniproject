@@ -17,8 +17,17 @@ def main():
 
 @app.route('/main')
 def detail():
+    id = request.args.get("id")
 
-    return render_template("main.html")
+    #doc = {
+    #    'id': id,
+    #    'title': "제목 5",
+    #    'content': "컨텐츠 5"
+    #}
+    #db.review.insert_one(doc)
+
+    post = list(db.review.find({'id': id}, {"_id": False}))
+    return render_template("main.html",id=id, post = post)
 
 
 @app.route('/api/save_word', methods=['POST'])

@@ -150,16 +150,16 @@
     </style>
 
     <script>
-
+        let a = 0
     </script>
     <body>
         <div class="wrap">
             <div class="banner">
                 <div>
-                    <a class="logo" onclick="window.location.href = '/'">Travela</a>
-                    <button type="button" class="btn btn-outline-danger logout">Logout</button>
-                    <span class="user_data">user ID</span>
-                    <button type="button" class="btn btn-outline-danger write_review">리뷰 쓰기</button>
+                    <a class="logo" onclick="window.location.href = '/main?id={{ id }}'">Travela</a>
+                    <button type="button" onclick="window.location.href = '/'" class="btn btn-outline-danger logout">Logout</button>
+                    <span class="user_data">{{ id }}</span>
+                    <button type="button"  class="btn btn-outline-danger write_review">리뷰 쓰기</button>
                 </div>
             </div>
             <div class="today_index">
@@ -171,29 +171,33 @@
                   </div>
                 </div>
 
-                <div class="card-group review_card">
-                    <img class="card-img-top review_card_photo"  src="https://ww.namu.la/s/dd28d29e650bff5a90776fda52187f6488962321db575dd030b0127bc4f5a4cea014119787459f2d3c5436e57b9f566e466ffcbaca7cd4fb4763a5b210cd94c4d2c1a0da69d83d9d3e39395881b0f06a3996f5f3099f1973e9b41e56a2fe7661" alt="Card image cap">
-                    <div class="card mb-3">
-                        <div class="card-body review_card_content">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                {% for i in range(post|length) %}
+                    {% if i % 2 == 0 %}
+                        <div class="card-group review_card">
+                            <img class="card-img-top review_card_photo"  src="https://ww.namu.la/s/dd28d29e650bff5a90776fda52187f6488962321db575dd030b0127bc4f5a4cea014119787459f2d3c5436e57b9f566e466ffcbaca7cd4fb4763a5b210cd94c4d2c1a0da69d83d9d3e39395881b0f06a3996f5f3099f1973e9b41e56a2fe7661" alt="Card image cap">
+                            <div class="card mb-3">
+                                <div class="card-body review_card_content">
+                                    <h5 class="card-title">{{ post[i].title }}</h5>
+                                    <p class="card-text">{{ post[i].content}}</p>
+                                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
+                    {% endif %}
+                    {% if i % 2 == 1 %}
+                        <div class="card-group review_card">
+                            <div class="card mb-3">
+                                <div class="card-body review_card_content">
+                                    <h5 class="card-title">{{ post[i].title }}</h5>
+                                    <p class="card-text">{{ post[i].content}}</p>
+                                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                                </div>
+                            </div>
+                            <img class="card-img-top review_card_photo"  src="https://ww.namu.la/s/dd28d29e650bff5a90776fda52187f6488962321db575dd030b0127bc4f5a4cea014119787459f2d3c5436e57b9f566e466ffcbaca7cd4fb4763a5b210cd94c4d2c1a0da69d83d9d3e39395881b0f06a3996f5f3099f1973e9b41e56a2fe7661" alt="Card image cap">
 
-                <div class="card-group review_card">
-                    <div class="card mb-3">
-                        <div class="card-body review_card_content">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
                         </div>
-                    </div>
-                    <img class="card-img-top review_card_photo"  src="https://ww.namu.la/s/dd28d29e650bff5a90776fda52187f6488962321db575dd030b0127bc4f5a4cea014119787459f2d3c5436e57b9f566e466ffcbaca7cd4fb4763a5b210cd94c4d2c1a0da69d83d9d3e39395881b0f06a3996f5f3099f1973e9b41e56a2fe7661" alt="Card image cap">
-
-                </div>
-
+                    {% endif %}
+                {% endfor %}
             </div>
         </div>
     </body>
