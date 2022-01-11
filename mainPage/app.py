@@ -3,7 +3,10 @@ from pymongo import MongoClient
 import requests
 
 
+
 app = Flask(__name__)
+
+app.jinja_env.add_extension('jinja2.ext.loopcontrols')
 
 client = MongoClient('3.34.190.40', 27017, username="test", password="test")
 db = client.miniproj
@@ -19,15 +22,15 @@ def main():
 def detail():
     id = request.args.get("id")
 
-    #doc = {
+    # doc = {
     #    'id': id,
-    #    'title': "제목 5",
-    #    'content': "컨텐츠 5"
-    #}
-    #db.review.insert_one(doc)
+    #    'title': "제목 7",
+    # }
+    # db.like.insert_one(doc)
 
+    like = list(db.like.find({'id': id}, {"_id": False}))
     post = list(db.review.find({'id': id}, {"_id": False}))
-    return render_template("main.html",id=id, post = post)
+    return render_template("main.html",id=id, post = post, like = like)
 
 
 @app.route('/api/save_word', methods=['POST'])

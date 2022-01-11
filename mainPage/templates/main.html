@@ -10,8 +10,10 @@
               integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
               crossorigin="anonymous">
 
-        <!-- font -->
+        <!-- fontAwesome -->
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
+        <!-- font -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Gugi&display=swap" rel="stylesheet">
@@ -48,7 +50,6 @@
             height: 100px;
 
             background-color: RGBA(232, 52, 78, 0.2);
-
 
         }
         .logo{
@@ -180,6 +181,20 @@
                                     <h5 class="card-title">{{ post[i].title }}</h5>
                                     <p class="card-text">{{ post[i].content}}</p>
                                     <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+
+                                    {% if 1 %}
+                                        {% set li = 0 %}
+                                        {% for a in range(like|length) %}
+                                            {% if like[a].title == post[i].title %}
+                                                <button id="btn-delete" onclick="delete_word()" class="btn btn-sparta btn-lg"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button>
+                                                {% break %}
+                                            {% elif a == like|length - 1 %}
+                                                <button id="btn-delete" onclick="delete_word()" class="btn btn-sparta btn-lg"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></button>
+                                            {% endif %}
+
+                                        {% endfor %}
+                                    {% endif %}
+
                                 </div>
                             </div>
                         </div>
@@ -191,6 +206,17 @@
                                     <h5 class="card-title">{{ post[i].title }}</h5>
                                     <p class="card-text">{{ post[i].content}}</p>
                                     <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                                    {% if 1 %}
+                                        {% set li = 0 %}
+                                        {% for a in range(like|length) %}
+                                            {% if like[a].title == post[i].title %}
+                                                <button id="btn-delete" onclick="delete_word()" class="btn btn-sparta btn-lg"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button>
+                                                {% set li = 1 %}
+                                            {% elif a == like|length - 1 and li != 1 %}
+                                                <button id="btn-delete" onclick="delete_word()" class="btn btn-sparta btn-lg"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></button>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
                                 </div>
                             </div>
                             <img class="card-img-top review_card_photo"  src="https://ww.namu.la/s/dd28d29e650bff5a90776fda52187f6488962321db575dd030b0127bc4f5a4cea014119787459f2d3c5436e57b9f566e466ffcbaca7cd4fb4763a5b210cd94c4d2c1a0da69d83d9d3e39395881b0f06a3996f5f3099f1973e9b41e56a2fe7661" alt="Card image cap">
