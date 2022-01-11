@@ -126,8 +126,6 @@
             margin: auto;
             margin-top: 50px;
 
-
-
         }
         .review_card{
             margin: 20px;
@@ -179,8 +177,8 @@
                             <div class="card mb-3">
                                 <div class="card-body review_card_content">
                                     <h5 class="card-title">{{ post[i].title }}</h5>
-                                    <p class="card-text">{{ post[i].content}}</p>
-                                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                                    <p class="card-text">{{ post[i].desc}}</p>
+                                    <p class="card-text"><small class="text-muted">{{ post[i].id}}</small></p>
 
                                     {% if 1 %}
                                         {% set li = 0 %}

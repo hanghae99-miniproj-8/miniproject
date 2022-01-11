@@ -13,13 +13,13 @@ db = client.miniproj
 
 
 @app.route('/')
-def main():
+def login():
     # DB에서 저장된 단어 찾아서 HTML에 나타내기
     return render_template("main.html")
 
 
 @app.route('/main')
-def detail():
+def main():
     id = request.args.get("id")
 
     # doc = {
@@ -28,9 +28,38 @@ def detail():
     # }
     # db.like.insert_one(doc)
 
-    like = list(db.like.find({'id': id}, {"_id": False}))
+    like = list(db.like.find({}, {"_id": False}))
     post = list(db.review.find({'id': id}, {"_id": False}))
     return render_template("main.html",id=id, post = post, like = like)
+
+@app.route('/create')
+def create():
+    id = request.args.get("id")
+
+    return render_template("create.html",id=id)
+
+@app.route('/create/save', methods=['POST'])
+def save():
+    user_receive = request.form["user_give"]
+    title_receive = request.form["title_give"]
+    add_receive = request.form["add_give"]
+    img_receive = request.form["img_give"]
+    desc_receive = request.form["desc_give"]
+    tag_receive = request.form["tag_give"]
+
+
+    doc={
+        'id' : user_receive,
+        'title' : title_receive,
+        'add' : add_receive,
+        'img' :img_receive,
+        'desc':desc_receive,
+        'tag' : tag_receive
+
+    }
+    db.review.insert_one(doc)
+
+    return jsonify({'result': 'success', 'msg': '입력 완료'})
 
 
 @app.route('/api/save_word', methods=['POST'])
