@@ -122,6 +122,7 @@
                         $.cookie('mytoken', response['token'], {path: '/main'});
                         $.cookie('mytoken', response['token'], {path: '/create'});
                         window.location.replace("/main");
+
                     } else {
                         alert(response['msg'])
                     }
