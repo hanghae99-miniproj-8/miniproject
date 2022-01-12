@@ -95,6 +95,7 @@ def main():
         id = (user_info['username'])
         tag = request.args.get("tag")
 
+
         if (tag == None):
             post = list(db.review.find({}, {"_id": False}))
         else:
@@ -179,6 +180,30 @@ def unlike_post():
     db.review.update_one({'title': title_receive},{'$set': {'like' : post['like']}})
 
     return jsonify({'result': 'success', 'msg': 'Cancle Like...'})
+
+
+@app.route('/detail')
+def detail():
+    title = request.args.get("title")
+    token_receive = request.cookies.get('mytoken')
+    try:
+
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+
+        user_info = db.users.find_one({"username": payload["id"]})
+
+        id = (user_info['username'])
+        post = list(db.review.find({"title": title}, {"_id": False}))
+        print(post)
+
+        return render_template("detail.html", id=id, post = post)
+
+    except jwt.ExpiredSignatureError:
+        return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
+    except jwt.exceptions.DecodeError:
+        return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
+    return render_template("detail.html")
+
 
 
 if __name__ == '__main__':
