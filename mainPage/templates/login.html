@@ -121,7 +121,9 @@
                     if (response['result'] == 'success') {
                         $.cookie('mytoken', response['token'], {path: '/main'});
                         $.cookie('mytoken', response['token'], {path: '/create'});
+                        $.cookie('mytoken', response['token'], {path: '/detail'});
                         window.location.replace("/main");
+
                     } else {
                         alert(response['msg'])
                     }

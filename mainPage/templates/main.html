@@ -139,12 +139,23 @@
 
             margin: 0 20px 15px 20px;
 
-            border-radius: 20px
+            border-radius: 20px;
+            position: relative;
         }
-
+        .review_card{
+            width: 1400px;
+            height: 350px;
+            margin: auto;
+        }
         .review_card_content{
             margin: 0 20px 0 20px ;
             border-radius: 50px;
+            position: absolute;
+        }
+
+        .like_logo{
+            position: relative;
+            bottom : 10px;
         }
 
 
@@ -180,17 +191,8 @@
             })
         }
         function logout(){
-            // 변수를 선언한다.
-            var date = new Date();
-            date.setDate(date.getDate() - 1);
+            $.cookie.delete('mytoken')
 
-            var willCookie = "";
-            willCookie += "mytoken=Value;";
-            willCookie += "Expires=" + date.toUTCString();
-
-            // 쿠키를 집어넣는다.
-            document.cookie = willCookie;
-            alert("dsad")
         }
 
         function search_tag(){
@@ -203,6 +205,7 @@
         }
 
     </script>
+
     <body>
         <div class="wrap">
             <div class="banner">
@@ -221,25 +224,27 @@
                         <button id = "btn_search" onclick="search_tag()" class="btn btn-outline-secondary" type="button">search</button>
                     </div>
                 </div>
+
                 <div id="cards">
                     {% for i in range(post|length) %}
+                        <a style="color: white">   .</a>
                         {% if i % 2 == 0 %}
                             <div class="card-group review_card">
-                                <img class="card-img-top review_card_photo"  src="https://ww.namu.la/s/dd28d29e650bff5a90776fda52187f6488962321db575dd030b0127bc4f5a4cea014119787459f2d3c5436e57b9f566e466ffcbaca7cd4fb4763a5b210cd94c4d2c1a0da69d83d9d3e39395881b0f06a3996f5f3099f1973e9b41e56a2fe7661" alt="Card image cap">
-                                <div class="card mb-3">
+                                <img class="card-img-top review_card_photo"  src="{{ post[i].img }}" alt="Card image cap">
+                                <div class="card mb-3 review_card">
                                     <div class="card-body review_card_content">
-                                        <h5 class="card-title">{{ post[i].title }}   </h5>
+                                        <h5 class="card-title" onclick="window.location.href = '/detail?title={{ post[i].title }}'">{{ post[i].title }}   </h5>
                                         <p class="card-text"><small class="text-muted">{{ post[i].add}}</small></p>
                                         <p class="card-text">{{ post[i].desc}}</p>
                                         <p class="card-text"><small class="text-muted">{{ post[i].id}}</small></p>
 
 
                                         {% if(id in post[i].like) %}
+                                            <button id="btn-unlike" onclick="unlike_post('{{ post[i].title }}')" class="btn btn-sparta btn-lg like_logo"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button>
                                             <a>{{ post[i].like|length }} Like</a>
-                                            <button id="btn-unlike" onclick="unlike_post('{{ post[i].title }}')" class="btn btn-sparta btn-lg"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button>
                                         {% else %}
+                                            <button id="btn-like" onclick="like_post('{{ post[i].title }}')" class="btn btn-sparta btn-lg like_logo"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></button>
                                             <a>{{ post[i].like|length }} Like</a>
-                                            <button id="btn-like" onclick="like_post('{{ post[i].title }}')" class="btn btn-sparta btn-lg "><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></button>
                                         {% endif %}
 
 
@@ -250,29 +255,31 @@
                                 </div>
                             </div>
                         {% endif %}
+
+
                         {% if i % 2 == 1 %}
                             <div class="card-group review_card">
                                 <div class="card mb-3">
                                     <div class="card-body review_card_content">
-                                        <h5 class="card-title">{{ post[i].title }}</h5>
+                                        <h5 class="card-title" onclick="window.location.href = '/detail?title={{ post[i].title }}'">{{ post[i].title }}</h5>
                                         <p class="card-text"><small class="text-muted">{{ post[i].add}}</small></p>
                                         <p class="card-text">{{ post[i].desc}}</p>
                                         <p class="card-text"><small class="text-muted">{{ post[i].id}}</small></p>
 
 
                                         {% if(id in post[i].like) %}
+                                            <button id="btn-unlike" onclick="unlike_post('{{ post[i].title }}')" class="btn btn-sparta btn-lg like_logo"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button>
                                             <a>{{ post[i].like|length }} Like</a>
-                                            <button id="btn-unlike" onclick="unlike_post('{{ post[i].title }}')" class="btn btn-sparta btn-lg"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button>
                                         {% else %}
+                                            <button id="btn-like" onclick="like_post('{{ post[i].title }}')" class="btn btn-sparta btn-lg like_logo"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></button>
                                             <a>{{ post[i].like|length }} Like</a>
-                                            <button id="btn-like" onclick="like_post('{{ post[i].title }}')" class="btn btn-sparta btn-lg "><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></button>
                                         {% endif %}
 
                                         <p class="card-text"><small class="text-muted">{{ post[i].tag}}</small></p>
 
                                     </div>
                                 </div>
-                                <img class="card-img-top review_card_photo"  src="https://ww.namu.la/s/dd28d29e650bff5a90776fda52187f6488962321db575dd030b0127bc4f5a4cea014119787459f2d3c5436e57b9f566e466ffcbaca7cd4fb4763a5b210cd94c4d2c1a0da69d83d9d3e39395881b0f06a3996f5f3099f1973e9b41e56a2fe7661" alt="Card image cap">
+                                <img class="card-img-top review_card_photo"  src="{{ post[i].img }}" alt="Card image cap">
 
                             </div>
                         {% endif %}
