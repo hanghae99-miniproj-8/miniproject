@@ -185,7 +185,7 @@
             },
             success: function (response) {
                 alert(response["msg"]);
-                window.location.href="/main?id={{ id }}"
+                window.location.href="/main"
             }
         })
     }
@@ -195,7 +195,7 @@
 <div class="wrap">
     <div class="banner">
         <div>
-            <a class="logo" onclick="window.location.href = '/main?id={{ id }}'">Travela</a>
+            <a class="logo" onclick="window.location.href = '/main'">Travela</a>
             <button type="button" class="btn btn-outline-danger logout">Logout</button>
             <span class="user_data"  id="userid">{{ id }}</span>
             <button type="button" onclick="save()" class="btn btn-outline-danger write_review">저장하기</button>
