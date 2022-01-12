@@ -171,6 +171,7 @@
         let desc = $("#desc").val();
         let tag = $("#tag").val();
 
+
         $.ajax({
             type: "POST",
             url: "/create/save",
@@ -194,9 +195,9 @@
 <div class="wrap">
     <div class="banner">
         <div>
-            <a class="logo" onclick="window.location.href = '/'">Travela</a>
+            <a class="logo" onclick="window.location.href = '/main?id={{ id }}'">Travela</a>
             <button type="button" class="btn btn-outline-danger logout">Logout</button>
-            <span class="user_data" id="userid">{{ id }}</span>
+            <span class="user_data"  id="userid">{{ id }}</span>
             <button type="button" onclick="save()" class="btn btn-outline-danger write_review">저장하기</button>
         </div>
     </div>

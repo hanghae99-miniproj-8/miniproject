@@ -21,22 +21,16 @@ def login():
 @app.route('/main')
 def main():
     id = request.args.get("id")
-
-    # doc = {
-    #    'id': id,
-    #    'title': "제목 7",
-    # }
-    # db.like.insert_one(doc)
-
-    like = list(db.like.find({}, {"_id": False}))
-    post = list(db.review.find({'id': id}, {"_id": False}))
+    like = list(db.like.find({'id': id}, {"_id": False}))
+    post = list(db.review.find({}, {"_id": False}))
     return render_template("main.html",id=id, post = post, like = like)
+
 
 @app.route('/create')
 def create():
     id = request.args.get("id")
-
     return render_template("create.html",id=id)
+
 
 @app.route('/create/save', methods=['POST'])
 def save():
@@ -54,24 +48,43 @@ def save():
         'add' : add_receive,
         'img' :img_receive,
         'desc':desc_receive,
-        'tag' : tag_receive
+        'tag' : tag_receive.split(" ")
 
     }
     db.review.insert_one(doc)
 
     return jsonify({'result': 'success', 'msg': '입력 완료'})
 
+@app.route('/main/like', methods=['POST'])
+def like_post():
+    id_receive = request.form["id_give"]
+    title_receive = request.form["title_give"]
+    doc = {
+        'id' : id_receive,
+        'title' : title_receive
+    }
+    db.like.insert_one(doc)
 
-@app.route('/api/save_word', methods=['POST'])
-def save_word():
-    # 단어 저장하기
-    return jsonify({'result': 'success', 'msg': '단어 저장'})
+    return jsonify({'result': 'success', 'msg': 'Like it!'})
 
 
-@app.route('/api/delete_word', methods=['POST'])
-def delete_word():
-    # 단어 삭제하기
-    return jsonify({'result': 'success', 'msg': '단어 삭제'})
+@app.route('/main/unlike', methods=['POST'])
+def unlike_post():
+    id_receive = request.form["id_give"]
+    title_receive = request.form["title_give"]
+
+    db.like.delete_one(({'id': id_receive, 'title' : title_receive}))
+
+    return jsonify({'result': 'success', 'msg': 'Cancle Like...'})
+
+
+@app.route('/main/search')
+def listing():
+    tag_receive = request.form["tag_give"]
+    print(tag_receive)
+    filter_post = list(db.review.find({},{'_id':False}))
+
+    return jsonify({'result': 'success', 'msg': '????', 'post' : filter_post})
 
 
 if __name__ == '__main__':
