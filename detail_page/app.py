@@ -2,7 +2,11 @@ from flask import Flask, render_template, request, jsonify, redirect, url_for
 from pymongo import MongoClient
 import requests
 
+
+
 app = Flask(__name__)
+
+app.jinja_env.add_extension('jinja2.ext.loopcontrols')
 
 client = MongoClient('3.37.130.181', 27017, username="test", password="test")
 db = client.miniproj
@@ -17,9 +21,11 @@ def main():
 def detail():
     return render_template("detail.html", user="id")
 
-@app.route('/spec')
-def spec():
-    return render_template("specific.html")
+@app.route('/spec/<keyword>')
+def spec(keyword):
+    id = request.args.get("user")
+    post = db.posting.find_one({"title": keyword}, {"_id": False})
+    return render_template("specific.html", id=id, post=post)
 
 @app.route('/save', methods=['POST'])
 def write_review():
@@ -49,4 +55,3 @@ def write_review():
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
-
