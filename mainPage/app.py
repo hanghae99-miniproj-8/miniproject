@@ -54,7 +54,8 @@ def save():
         'add' : add_receive,
         'img' :img_receive,
         'desc':desc_receive,
-        'tag' : tag_receive.split(" ")
+        'tag' : tag_receive.split(" "),
+        'like' : []
 
     }
     db.review.insert_one(doc)

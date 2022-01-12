@@ -220,7 +220,7 @@
                                         <p class="card-text">{{ post[i].desc}}</p>
                                         <p class="card-text"><small class="text-muted">{{ post[i].id}}</small></p>
 
-                                        {% set li = 0 %}
+
                                         {% for a in range(like|length) %}
                                             {% if like[a].title == post[i].title %}
                                                 <button id="btn-unlike" onclick="unlike_post('{{ post[i].title }}')" class="btn btn-sparta btn-lg"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button>
@@ -245,7 +245,7 @@
                                         <p class="card-text">{{ post[i].desc}}</p>
                                         <p class="card-text"><small class="text-muted">{{ post[i].id}}</small></p>
 
-                                        {% set li = 0 %}
+
                                         {% for a in range(like|length) %}
                                             {% if like[a].title == post[i].title %}
                                                 <button id="btn-delete" onclick="unlike_post('{{ post[i].title }}')" class="btn btn-sparta btn-lg"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button>
