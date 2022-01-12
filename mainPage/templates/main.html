@@ -151,7 +151,6 @@
     </style>
 
     <script>
-
         function like_post(title){
             $.ajax({
                 type: "POST",
@@ -162,7 +161,7 @@
                 },
                 success: function (response) {
                     alert(response["msg"]);
-                    window.location.href="/main?id={{ id }}"
+                    window.location.href="/main"
                 }
             })
         }
@@ -176,9 +175,22 @@
                 },
                 success: function (response) {
                     alert(response["msg"]);
-                    window.location.href="/main?id={{ id }}"
+                    window.location.href="/main"
                 }
             })
+        }
+        function logout(){
+            // 변수를 선언한다.
+            var date = new Date();
+            date.setDate(date.getDate() - 1);
+
+            var willCookie = "";
+            willCookie += "mytoken=Value;";
+            willCookie += "Expires=" + date.toUTCString();
+
+            // 쿠키를 집어넣는다.
+            document.cookie = willCookie;
+            alert("dsad")
         }
 
         function search_tag(){
@@ -187,17 +199,18 @@
 
             let search_tag = $("#search_input").val();
 
-            window.location.href=`/main?id={{ id }}&tag=${search_tag}`
+            window.location.href=`/main?tag=${search_tag}`
         }
+
     </script>
     <body>
         <div class="wrap">
             <div class="banner">
                 <div>
-                    <a class="logo" onclick="window.location.href = '/main?id={{ id }}'">Travela</a>
-                    <button type="button" onclick="window.location.href = '/'" class="btn btn-outline-danger logout">Logout</button>
+                    <a class="logo" onclick="window.location.href = '/main'">Travela</a>
+                    <button type="button" onclick="logout()" class="btn btn-outline-danger logout">Logout</button>
                     <span class="user_data">{{ id }}</span>
-                    <button type="button" onclick="window.location.href = '/create?id={{ id }}'" class="btn btn-outline-danger write_review">리뷰 쓰기</button>
+                    <button type="button" onclick="window.location.href = '/create'" class="btn btn-outline-danger write_review">리뷰 쓰기</button>
                 </div>
             </div>
             <div class="today_index">
@@ -215,20 +228,21 @@
                                 <img class="card-img-top review_card_photo"  src="https://ww.namu.la/s/dd28d29e650bff5a90776fda52187f6488962321db575dd030b0127bc4f5a4cea014119787459f2d3c5436e57b9f566e466ffcbaca7cd4fb4763a5b210cd94c4d2c1a0da69d83d9d3e39395881b0f06a3996f5f3099f1973e9b41e56a2fe7661" alt="Card image cap">
                                 <div class="card mb-3">
                                     <div class="card-body review_card_content">
-                                        <h5 class="card-title">{{ post[i].title }}</h5>
+                                        <h5 class="card-title">{{ post[i].title }}   </h5>
                                         <p class="card-text"><small class="text-muted">{{ post[i].add}}</small></p>
                                         <p class="card-text">{{ post[i].desc}}</p>
                                         <p class="card-text"><small class="text-muted">{{ post[i].id}}</small></p>
 
 
-                                        {% for a in range(like|length) %}
-                                            {% if like[a].title == post[i].title %}
-                                                <button id="btn-unlike" onclick="unlike_post('{{ post[i].title }}')" class="btn btn-sparta btn-lg"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button>
-                                                {% break %}
-                                            {% elif a == like|length - 1 %}
-                                                <button id="btn-like" onclick="like_post('{{ post[i].title }}')" class="btn btn-sparta btn-lg"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></button>
-                                            {% endif %}
-                                        {% endfor %}
+                                        {% if(id in post[i].like) %}
+                                            <a>{{ post[i].like|length }} Like</a>
+                                            <button id="btn-unlike" onclick="unlike_post('{{ post[i].title }}')" class="btn btn-sparta btn-lg"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button>
+                                        {% else %}
+                                            <a>{{ post[i].like|length }} Like</a>
+                                            <button id="btn-like" onclick="like_post('{{ post[i].title }}')" class="btn btn-sparta btn-lg "><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></button>
+                                        {% endif %}
+
+
 
                                         <p class="card-text"><small class="text-muted">{{ post[i].tag }}</small></p>
 
@@ -246,14 +260,13 @@
                                         <p class="card-text"><small class="text-muted">{{ post[i].id}}</small></p>
 
 
-                                        {% for a in range(like|length) %}
-                                            {% if like[a].title == post[i].title %}
-                                                <button id="btn-delete" onclick="unlike_post('{{ post[i].title }}')" class="btn btn-sparta btn-lg"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button>
-                                                {% break %}
-                                            {% elif a == like|length - 1 %}
-                                                <button id="btn-delete" onclick="like_post('{{ post[i].title }}')" class="btn btn-sparta btn-lg"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></button>
-                                            {% endif %}
-                                        {% endfor %}
+                                        {% if(id in post[i].like) %}
+                                            <a>{{ post[i].like|length }} Like</a>
+                                            <button id="btn-unlike" onclick="unlike_post('{{ post[i].title }}')" class="btn btn-sparta btn-lg"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button>
+                                        {% else %}
+                                            <a>{{ post[i].like|length }} Like</a>
+                                            <button id="btn-like" onclick="like_post('{{ post[i].title }}')" class="btn btn-sparta btn-lg "><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></button>
+                                        {% endif %}
 
                                         <p class="card-text"><small class="text-muted">{{ post[i].tag}}</small></p>
 

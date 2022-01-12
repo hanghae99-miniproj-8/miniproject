@@ -46,7 +46,7 @@ def sign_in():
     if result is not None:
         payload = {
             'id': username_receive,
-            'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)  # 로그인 24시간 유지
+            'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 0.5)  # 로그인 30분 유지
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
 
@@ -114,8 +114,23 @@ def main():
 
 @app.route('/create')
 def create():
-    id = request.args.get("id")
-    return render_template("create.html",id=id)
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+
+        user_info = db.users.find_one({"username": payload["id"]})
+
+        id = (user_info['username'])
+
+        return render_template("create.html", id=id)
+
+    except jwt.ExpiredSignatureError:
+        return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
+    except jwt.exceptions.DecodeError:
+        return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
+
+
+
 
 
 @app.route('/create/save', methods=['POST'])
@@ -146,11 +161,10 @@ def save():
 def like_post():
     id_receive = request.form["id_give"]
     title_receive = request.form["title_give"]
-    doc = {
-        'id' : id_receive,
-        'title' : title_receive
-    }
-    db.like.insert_one(doc)
+
+    post = db.review.find_one({'title' : title_receive}, {"_id": False})
+    post['like'].append(id_receive)
+    db.review.update_one({'title': title_receive},{'$set': {'like' : post['like']}})
 
     return jsonify({'result': 'success', 'msg': 'Like it!'})
 
@@ -160,7 +174,9 @@ def unlike_post():
     id_receive = request.form["id_give"]
     title_receive = request.form["title_give"]
 
-    db.like.delete_one(({'id': id_receive, 'title' : title_receive}))
+    post = db.review.find_one({'title' : title_receive}, {"_id": False})
+    post['like'].remove(id_receive)
+    db.review.update_one({'title': title_receive},{'$set': {'like' : post['like']}})
 
     return jsonify({'result': 'success', 'msg': 'Cancle Like...'})
 

@@ -120,7 +120,8 @@
                 success: function (response) {
                     if (response['result'] == 'success') {
                         $.cookie('mytoken', response['token'], {path: '/main'});
-                        window.location.replace("/main")
+                        $.cookie('mytoken', response['token'], {path: '/create'});
+                        window.location.replace("/main");
                     } else {
                         alert(response['msg'])
                     }
