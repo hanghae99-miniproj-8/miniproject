@@ -233,7 +233,7 @@
                                 <img class="card-img-top review_card_photo"  src="{{ post[i].img }}" alt="Card image cap">
                                 <div class="card mb-3 review_card">
                                     <div class="card-body review_card_content">
-                                        <h5 class="card-title" onclick="window.location.href = '/detail?title={{ post[i].title }}'">{{ post[i].title }}   </h5>
+                                        <h5 class="card-title" style="cursor: pointer" onclick="window.location.href = '/detail?title={{ post[i].title }}'">{{ post[i].title }}   </h5>
                                         <p class="card-text"><small class="text-muted">{{ post[i].add}}</small></p>
                                         <p class="card-text">{{ post[i].desc}}</p>
                                         <p class="card-text"><small class="text-muted">{{ post[i].id}}</small></p>
@@ -261,7 +261,7 @@
                             <div class="card-group review_card">
                                 <div class="card mb-3">
                                     <div class="card-body review_card_content">
-                                        <h5 class="card-title" onclick="window.location.href = '/detail?title={{ post[i].title }}'">{{ post[i].title }}</h5>
+                                        <h5 class="card-title" style="cursor: pointer" onclick="window.location.href = '/detail?title={{ post[i].title }}'">{{ post[i].title }}</h5>
                                         <p class="card-text"><small class="text-muted">{{ post[i].add}}</small></p>
                                         <p class="card-text">{{ post[i].desc}}</p>
                                         <p class="card-text"><small class="text-muted">{{ post[i].id}}</small></p>
