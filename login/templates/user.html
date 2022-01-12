@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+   <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Travela</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+
+    <!-- fontAwesome -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gugi&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Salsa&display=swap" rel="stylesheet">
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+
+
+    <style>
+        * {
+            font-family: 'Gugi', cursive;
+        }
+
+        .wrap {
+            background-color: white;
+            min-height: 100vh;
+            padding-bottom: 50px;
+
+
+        }
+
+        .banner {
+            width: 100%;
+            height: 100px;
+
+            background-color: RGBA(232, 52, 78, 0.2);
+
+        }
+
+        .logo {
+
+            height: 90px;
+            font-family: 'Salsa', cursive;
+
+            position: absolute;
+            top: 5px;
+            left: 10px;
+
+            font-size: 60px;
+
+            cursor: pointer;
+
+        }
+
+        .logout {
+            width: 200px;
+            height: 70px;
+
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            border: solid 3px RGBA(232, 52, 78, 0.2);
+
+
+            font-size: 20px;
+            text-align: center;
+
+
+        }
+
+        .user_data {
+            width: 200px;
+            height: 70px;
+
+            position: absolute;
+            top: 30px;
+            right: 250px;
+
+
+            font-size: 30px;
+            color: black;
+            text-align: center;
+
+        }
+
+        body {
+            background-color: RGBA(232, 52, 78, 0.2);
+            min-height: 100vh;
+            padding-top: 3.25rem;
+        }
+
+        .section {
+            padding: 1rem 1.5rem;
+            max-width: 750px;
+            margin: auto;
+        }
+
+        .is-sparta {
+            color: #e8344e !important;
+        }
+
+        .button.is-sparta {
+            background-color: #e8344e;
+            border-color: transparent;
+            color: #fff !important;
+        }
+
+        .button.is-sparta.is-outlined {
+            background-color: transparent;
+            border-color: #e8344e;
+            color: #e8344e !important;
+        }
+
+        .modal-content {
+            width: 600px;
+            max-width: 80%;
+        }
+
+        input::-webkit-calendar-picker-indicator {
+            display: none;
+        }
+
+        .image img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+
+    <script>
+        function sign_out() {
+            $.removeCookie('mytoken', {path: '/'});
+            alert('로그아웃!')
+            window.location.href = "/login"
+        }
+
+
+
+    </script>
+
+</head>
+<body>
+
+<div class="wrap">
+    <div class="banner">
+        <div>
+            <a class="logo" onclick="window.location.href = '/main?id={{ id }}'">Travela</a>
+            <button type="button" onclick="sign_out()" class="btn btn-outline-danger logout">Logout
+            </button>
+            <span class="user_data">{{ id }}</span>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>
