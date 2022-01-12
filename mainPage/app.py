@@ -21,8 +21,14 @@ def login():
 @app.route('/main')
 def main():
     id = request.args.get("id")
+    tag = request.args.get("tag")
+    print(tag)
+    if(tag == None):
+        post = list(db.review.find({}, {"_id": False}))
+    else:
+        post = list(db.review.find({"tag": {"$regex": tag}}, {"_id": False}))
     like = list(db.like.find({'id': id}, {"_id": False}))
-    post = list(db.review.find({}, {"_id": False}))
+
     return render_template("main.html",id=id, post = post, like = like)
 
 
@@ -76,15 +82,6 @@ def unlike_post():
     db.like.delete_one(({'id': id_receive, 'title' : title_receive}))
 
     return jsonify({'result': 'success', 'msg': 'Cancle Like...'})
-
-
-@app.route('/main/search')
-def listing():
-    tag_receive = request.form["tag_give"]
-    print(tag_receive)
-    filter_post = list(db.review.find({},{'_id':False}))
-
-    return jsonify({'result': 'success', 'msg': '????', 'post' : filter_post})
 
 
 if __name__ == '__main__':

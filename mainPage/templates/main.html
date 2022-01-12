@@ -180,23 +180,14 @@
                 }
             })
         }
+
         function search_tag(){
-            console.log($("#search_input").val())
-            $("#cards").empty()
+            console.log($("#search_input").val());
+            $("#cards").empty();
 
-            let tag = $("#search_input").val()
+            let search_tag = $("#search_input").val();
 
-            $.ajax({
-                type: "POST",
-                url: "/main/search",
-                data: {
-                    tag_give: tag
-                },
-                success: function (response) {
-                    alert(response['filter_post']);
-                }
-            })
-
+            window.location.href=`/main?id={{ id }}&tag=${search_tag}`
         }
     </script>
     <body>
@@ -239,7 +230,7 @@
                                             {% endif %}
                                         {% endfor %}
 
-                                        <p class="card-text"><small class="text-muted">{{ post[i].tag}}</small></p>
+                                        <p class="card-text"><small class="text-muted">{{ post[i].tag }}</small></p>
 
                                     </div>
                                 </div>
