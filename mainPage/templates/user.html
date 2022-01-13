@@ -187,7 +187,7 @@
     </script>
 
 </head>
-<body>
+<body style="padding: 0px">
 
 <div class="wrap">
     <div class="banner">
@@ -198,7 +198,7 @@
             <span class="user_data">{{ user_info.profile_name }}</span>
         </div>
     </div>
-    <div class="card-group info-card">
+    <div class="card-group info-card" >
         <img class="card-img-top image" src="{{ url_for('static', filename=user_info.profile_pic_real) }}">
         <div class="card-body info">
             <p>
