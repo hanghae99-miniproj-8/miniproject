@@ -36,3 +36,4 @@ https://www.youtube.com/watch?v=uI5cw5fjd0w
 ##어려웠던 점
 
     - githup 사용
+    - cookie 사용
