@@ -149,7 +149,6 @@ def save():
     user_receive = request.form["user_give"]
     title_receive = request.form["title_give"]
     add_receive = request.form["add_give"]
-    img_receive = request.form["img_give"]
     desc_receive = request.form["desc_give"]
     tag_receive = request.form["tag_give"]
 
@@ -158,12 +157,20 @@ def save():
         'id' : user_receive,
         'title' : title_receive,
         'add' : add_receive,
-        'img' :img_receive,
         'desc':desc_receive,
         'tag' : tag_receive.split(" "),
         'like' : []
 
     }
+
+    if 'file_give' in request.files:
+        file = request.files["file_give"]
+        filename = secure_filename(file.filename)
+        extension = filename.split(".")[-1]
+        file_path = f"post_img/{title_receive}.{extension}"
+        file.save("./static/" + file_path)
+        doc["img"] = file_path
+
     #DB insert
     db.review.insert_one(doc)
 

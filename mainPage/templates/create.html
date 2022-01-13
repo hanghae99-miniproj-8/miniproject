@@ -15,6 +15,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Dongle&family=Gowun+Dodum&family=Gugi&family=Salsa&display=swap" rel="stylesheet">
 
+    <!-- fontAwesome -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -36,7 +39,6 @@
     * {
         font-family: 'Gowun Dodum', sans-serif;
     }
-
     .wrap {
         background-color: white;
         min-height: 100vh;
@@ -159,6 +161,8 @@
 
         padding: 10px;
         margin: 10px auto 5px  10px;
+
+
     }
 
 
@@ -170,9 +174,17 @@
         //jquery를 이용함
         let title = $("#title").val();
         let add_url = $("#add_url").val();
-        let img_url = $("#img_url").val();
+        let file = $('#input-pic')[0].files[0]
         let desc = $("#desc").val();
         let tag = $("#tag").val();
+        console.log(title,add_url,file,desc,tag)
+        let form_data = new FormData()
+        form_data.append("user_give", "{{ id }}")
+        form_data.append("title_give", title)
+        form_data.append("add_give", add_url)
+        form_data.append("file_give", file)
+        form_data.append("desc_give", desc)
+        form_data.append("tag_give", tag)
 
 
         $.ajax({
@@ -180,14 +192,10 @@
             //다시 메인 페이지로 돌아가도록 설계됨
             type: "POST",
             url: "/create/save",
-            data: {
-                user_give: '{{ id }}',
-                title_give: title,
-                add_give: add_url,
-                img_give: img_url,
-                desc_give: desc,
-                tag_give: tag
-            },
+            data: form_data,
+            cache: false,
+            contentType: false,
+            processData: false,
             success: function (response) {
                 alert(response["msg"]);
                 window.location.href="/main"
@@ -195,13 +203,13 @@
         })
     }
 
-            function sign_out() {
-            $.removeCookie('mytoken', {path: '/main'});
-            $.removeCookie('mytoken', {path: '/create'});
-            $.removeCookie('mytoken', {path: '/detail'});
-            alert('로그아웃!')
-            window.location.href = "/login"
-        }
+    function sign_out() {
+        $.removeCookie('mytoken', {path: '/main'});
+        $.removeCookie('mytoken', {path: '/create'});
+        $.removeCookie('mytoken', {path: '/detail'});
+        alert('로그아웃!')
+        window.location.href = "/login"
+    }
 
 </script>
 
@@ -231,11 +239,16 @@
             </div>
             <input type="text" id="add_url" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
         </div>
-        <div class="input-group input-group-sm mb-3 input_photo">
+
+        <div class="input-group   input_photo">
             <div class="input-group-prepend">
                 <span class="input-group-text" id="inputGroup-sizing-sm">사진</span>
             </div>
-            <input type="text" id="img_url" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+            <div class="input-group-append">
+                <input type="file" id = "input-pic" class="btn btn-outline-secondary fa fa-file" type="button" style="width: 820px">
+            </div>
+
+
         </div>
 
         <textarea id="desc" class="txtBox"></textarea>

@@ -234,6 +234,8 @@
                     <button type="button" onclick="window.location.href = '/create'" class="btn btn-outline-danger write_review">리뷰 쓰기</button>
                 </div>
             </div>
+
+
             <!-- 포스팅 출력 부분 -->
             <div class="today_index">
                 <!-- 해쉬 태그 검색 기능 -->
@@ -253,7 +255,7 @@
                         {% if i % 2 == 0 %}        {#사진 | 내용 형식 카드#}
                             <div class="card-group review_card">
                                 <!-- 사진 -->
-                                <img class="card-img-top review_card_photo"  src="{{ post[i].img }}" alt="Card image cap">
+                                <img class="card-img-top review_card_photo"  src="{{ url_for('static', filename=post[i].img) }}" alt="Card image cap">
                                 <!-- 내용 -->
                                 <div class="card mb-3 review_card">
                                     <div class="card-body review_card_content">
@@ -319,7 +321,7 @@
                                     </div>
                                 </div>
                                 <!-- 사진 -->
-                                <img class="card-img-top review_card_photo"  src="{{ post[i].img }}" alt="Card image cap">
+                                <img class="card-img-top review_card_photo"  src="{{ url_for('static', filename=post[i].img) }}" alt="Card image cap">
 
                             </div>
                         {% endif %}
