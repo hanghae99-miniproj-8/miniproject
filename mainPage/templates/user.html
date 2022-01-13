@@ -202,8 +202,8 @@
             <span class="user_data">{{ user_info.profile_name }}</span>
         </div>
     </div>
-    //유저 이름 닉네임 간단한 설명을 보여주는 곳
-    //user_info에 있는 사진 이름 닉네임 간단한 설명를 보여줌
+    <!--유저 이름 닉네임 간단한 설명을 보여주는 곳-->
+    <!--user_info에 있는 사진 이름 닉네임 간단한 설명를 보여줌-->
     <div class="card-group info-card">
         <img class="card-img-top image" src="{{ url_for('static', filename=user_info.profile_pic_real) }}">
         <div class="card-body info">
@@ -218,11 +218,11 @@
             </p>
         </div>
     </div>
-    //프로필을 수정하는 버튼
+    <!--프로필을 수정하는 버튼-->
     <button type="button" class="btn btn-outline-dark update" onclick='$("#modal-edit").addClass("is-active")'>
         프로필 수정<span class="icon is-small"><i class="fa fa-pencil" aria-hidden="true"></i></span></button>
 
-    //modal로 띄어진 창에 이름 닉네임 사진 간단한 소개를 수정할 수 있음
+    <!--modal로 띄어진 창에 이름 닉네임 사진 간단한 소개를 수정할 수 있음-->
     <div class="modal" id="modal-edit">
         <div class="modal-background" onclick='$("#modal-edit").removeClass("is-active")'></div>
         <div class="modal-content">
@@ -280,7 +280,7 @@
 
                             </div>
                             <div class="level-right">
-                                //업데이트를 클릭하면 update_profile함수가 실행되어 업데이트 완료
+                                <!--업데이트를 클릭하면 update_profile함수가 실행되어 업데이트 완료-->
                                 <div class="level-item">
                                     <a class="button is-sparta" onclick="update_profile()">업데이트</a>
                                 </div>
@@ -294,7 +294,7 @@
                 </article>
             </div>
         </div>
-        //창을 닫고 싶은 경우
+        <!--창을 닫고 싶은 경우-->
         <button class="modal-close is-large" aria-label="close"
                 onclick='$("#modal-edit").removeClass("is-active")'></button>
     </div>
