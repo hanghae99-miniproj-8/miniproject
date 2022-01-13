@@ -170,6 +170,9 @@
             max-height: 30px;
             max-width: 30px;
         }
+        .likeNtag{
+            line-height: 80px;
+        }
 
 
     </style>
@@ -248,16 +251,27 @@
                     {% for i in range(post|length) %}
                         <a style="color: white">   .</a>
                         {% if i % 2 == 0 %}
+                            <h3>
+
+                            </h3>
+
+
                             <div class="card-group review_card">
                                 <img class="card-img-top review_card_photo"  src="{{ post[i].img }}" alt="Card image cap">
                                 <div class="card mb-3 review_card">
                                     <div class="card-body review_card_content">
                                         <h5 class="card-title" style="cursor: pointer" onclick="window.location.href = '/detail?title={{ post[i].title }}'">{{ post[i].title }}   </h5>
                                         <p class="card-text"><small class="text-muted">{{ post[i].add}}</small></p>
-                                        <p class="card-text">{{ post[i].desc}}</p>
-                                        <p class="card-text"><small class="text-muted"><img class="user_icon" src="{{ url_for('static', filename=user_info.profile_pic_real) }}">{{ post[i].id}}</small></p>
+                                        <p class="card-text">{{ post[i].desc}}   </p>
+                                        {% for u in range(all_user_info|length) %}
+                                            {% if all_user_info[u].username == post[i].id %}
+                                                <p class="card-text"><small class="text-muted"><img class="user_icon" src="{{ url_for('static', filename=all_user_info[u].profile_pic_real) }}">{{ post[i].id}}</small></p>
+                                                {% break %}
+                                            {% endif %}
+                                        {% endfor %}
 
 
+                                        <div class ="likeNtag">
                                         {% if(id in post[i].like) %}
                                             <button id="btn-unlike" onclick="unlike_post('{{ post[i].title }}')" class="btn btn-sparta btn-lg like_logo"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button>
                                             <a>{{ post[i].like|length }} Like</a>
@@ -269,6 +283,7 @@
 
 
                                         <p class="card-text"><small class="text-muted">{{ post[i].tag }}</small></p>
+                                        </div>
 
                                     </div>
                                 </div>
@@ -283,9 +298,14 @@
                                         <h5 class="card-title" style="cursor: pointer" onclick="window.location.href = '/detail?title={{ post[i].title }}'">{{ post[i].title }}</h5>
                                         <p class="card-text"><small class="text-muted">{{ post[i].add}}</small></p>
                                         <p class="card-text">{{ post[i].desc}}</p>
-                                        <p class="card-text"><small class="text-muted"><img class="user_icon" src="{{ url_for('static', filename=user_info.profile_pic_real) }}">{{ post[i].id}}</small></p>
+                                        {% for u in range(all_user_info|length) %}
+                                            {% if all_user_info[u].username == post[i].id %}
+                                                <p class="card-text"><small class="text-muted"><img class="user_icon" src="{{ url_for('static', filename=all_user_info[u].profile_pic_real) }}">{{ post[i].id}}</small></p>
+                                                {% break %}
+                                            {% endif %}
+                                        {% endfor %}
 
-
+                                        <div class ="likeNtag">
                                         {% if(id in post[i].like) %}
                                             <button id="btn-unlike" onclick="unlike_post('{{ post[i].title }}')" class="btn btn-sparta btn-lg like_logo"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button>
                                             <a>{{ post[i].like|length }} Like</a>
@@ -295,6 +315,7 @@
                                         {% endif %}
 
                                         <p class="card-text"><small class="text-muted">{{ post[i].tag}}</small></p>
+                                        </div>
 
                                     </div>
                                 </div>

@@ -7,6 +7,8 @@ import datetime
 import hashlib
 from datetime import datetime, timedelta
 
+from werkzeug.utils import secure_filename
+
 app = Flask(__name__)
 
 #jinja2에서 break 사용하기 위한 라이브러리
@@ -95,6 +97,8 @@ def main():
         id = (user_info['username'])
         tag = request.args.get("tag")
 
+        all_user_info = list(db.users.find({},{'_id':0}))
+
 
         if (tag == None):
             post = list(db.review.find({}, {"_id": False}))
@@ -102,7 +106,7 @@ def main():
             post = list(db.review.find({"tag": {"$regex": tag}}, {"_id": False}))
         like = list(db.like.find({'id': id}, {"_id": False}))
 
-        return render_template("main.html", id=id, post=post, like=like, user_info=user_info)
+        return render_template("main.html", id=id, post=post, like=like, user_info=user_info,all_user_info = all_user_info)
 
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
@@ -216,13 +220,40 @@ def user():
 
 
 
-        return render_template("user.html", id=id, user_info = user_info, )
+        return render_template("user.html", id=id, user_info = user_info )
 
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
     except jwt.exceptions.DecodeError:
         return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
     return render_template("detail.html")
+
+@app.route('/user/update_profile', methods=['POST'])
+def save_img():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        username = payload["id"]
+        name_receive = request.form["name_give"]
+        nick_receive = request.form["nick_give"]
+        about_receive = request.form["about_give"]
+        new_doc = {
+            "profile_name": name_receive,
+            "nick": nick_receive,
+            "profile_info": about_receive
+        }
+        if 'file_give' in request.files:
+            file = request.files["file_give"]
+            filename = secure_filename(file.filename)
+            extension = filename.split(".")[-1]
+            file_path = f"profile_pics/{username}.{extension}"
+            file.save("./static/"+file_path)
+            new_doc["profile_pic"] = filename
+            new_doc["profile_pic_real"] = file_path
+        db.users.update_one({'username': payload['id']}, {'$set':new_doc})
+        return jsonify({"result": "success", 'msg': '프로필을 업데이트했습니다.'})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
 
 
 if __name__ == '__main__':
