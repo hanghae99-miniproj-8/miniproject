@@ -1,7 +1,6 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Travela</title>
@@ -11,10 +10,8 @@
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
           crossorigin="anonymous">
 
-    <!-- fontAwesome -->
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-
     <!-- font -->
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Gugi&display=swap" rel="stylesheet">
@@ -25,14 +22,15 @@
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
             integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
             crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
+
+    {#cookie remove를 위한 선언#}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 
 
     <style>
@@ -53,6 +51,7 @@
             height: 100px;
 
             background-color: RGBA(232, 52, 78, 0.2);
+
 
         }
 
@@ -102,6 +101,11 @@
 
         }
 
+        .today_index {
+            background: white;
+            margin: 0 200px 0 200px;
+        }
+
         .write_review {
             width: 200px;
             height: 70px;
@@ -114,13 +118,53 @@
 
             font-size: 20px;
             text-align: center;
+
         }
 
+        .txtBox {
+            width: 90vw;
+            height: 30vh;
+            font-size: 2rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .jumbotron {
+            display: flex;
+            margin: 1rem 7rem 0 7rem;
+            background-color: white;
+        }
+
+        .badge-light {
+            background-color: RGBA(232, 52, 78, 0.2);
+            margin: 1rem 0 1rem 0;
+        }
+
+        .card {
+            margin: 0 1rem 0 0;
+        }
+
+        .card-header {
+            background-color: RGBA(232, 52, 78, 0.2);
+            font-size: 2rem;
+        }
+
+        .header-user {
+            font-size: 1rem;
+        }
+
+        .tae {
+            width: 50rem;
+        }
 
     </style>
+
     <script>
+
         function sign_out() {
-            $.removeCookie('mytoken', {path: '/'});
+            $.removeCookie('mytoken', {path: '/main'});
+            $.removeCookie('mytoken', {path: '/create'});
+            $.removeCookie('mytoken', {path: '/detail'});
             alert('로그아웃!')
             window.location.href = "/login"
         }
@@ -131,13 +175,35 @@
 <div class="wrap">
     <div class="banner">
         <div>
-            <a class="logo" onclick="window.location.href = '/main?id={{ id }}'">Travela</a>
-            <button type="button" onclick="sign_out()" class="btn btn-outline-danger logout">Logout
-            </button>
-            <a class="user_data" href="/user/{{ user_info.username }}">하이</a>
-            <button type="button" class="btn btn-outline-danger write_review">리뷰 쓰기</button>
+            <a class="logo" onclick="window.location.href = '/main'">Travela</a>
+            <button type="button" onclick="sign_out()" class="btn btn-outline-danger logout">Logout</button>
+            <span class="user_data" id="userid">{{ id }}</span>
         </div>
     </div>
+    <div class="jumbotron">
+        <div class="card" style="width: 40rem;">
+
+            <img class="card-img-top" src='{{ post[0].img }}' alt="Card image cap">
+        </div>
+        <!--제목,작성자아이디,리뷰,해쉬태그,주소-->
+        <div class="card tae">
+            <div class="card-header" style="background-color: RGBA(232, 52, 78, 0.2);">
+                {{ post[0].title }}
+                <span class="header-user">{{ post[0].id }}</span>
+
+            </div>
+            <div class="card-body">
+                <p class="card-text">{{ post[0].desc }}</p>
+
+                {% for tag in post[0].tag %}
+                <a href="/main?tag={{ tag[1:] }}" class="badge badge-light">{{ tag }}</a>
+                {% endfor %}
+
+                <br><span>{{ post[0].add }}</span>
+            </div>
+        </div>
+    </div>
+</div>
 </div>
 </body>
 </html>

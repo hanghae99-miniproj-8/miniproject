@@ -5,8 +5,8 @@ import requests
 
 app = Flask(__name__)
 
-client = MongoClient('3.34.190.40', 27017, username="test", password="test")
-db = client.dbsparta_plus_week2
+client = MongoClient('13.209.96.64', 27017, username="test", password="test")
+db = client.dbsparta_plus
 
 
 @app.route('/')
