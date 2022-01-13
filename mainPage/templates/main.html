@@ -172,6 +172,7 @@
     </style>
 
     <script>
+        <!-- 좋아요 함수 -->
         function like_post(title){
             $.ajax({
                 type: "POST",
@@ -186,6 +187,7 @@
                 }
             })
         }
+        <!-- 좋아요 취소 -->
         function unlike_post(title){
             $.ajax({
                 type: "POST",
@@ -200,17 +202,16 @@
                 }
             })
         }
-
+        <!-- 로그아웃 -->
         function sign_out() {
+            //부여된 모든 쿠키를 제거한다.
             $.removeCookie('mytoken', {path: '/main'});
             $.removeCookie('mytoken', {path: '/create'});
             $.removeCookie('mytoken', {path: '/detail'});
             alert('로그아웃!')
             window.location.href = "/login"
         }
-
-
-
+        <!-- 태그 검색 -->
         function search_tag(){
             console.log($("#search_input").val());
             $("#cards").empty();
@@ -224,6 +225,7 @@
 
     <body>
         <div class="wrap">
+            <!-- 상단 배너 -->
             <div class="banner">
                 <div>
                     <a class="logo" onclick="window.location.href = '/main'">Travela</a>
@@ -232,7 +234,9 @@
                     <button type="button" onclick="window.location.href = '/create'" class="btn btn-outline-danger write_review">리뷰 쓰기</button>
                 </div>
             </div>
+            <!-- 포스팅 출력 부분 -->
             <div class="today_index">
+                <!-- 해쉬 태그 검색 기능 -->
                 <div class="input-group mb-3 search_button">
                     <label class="input-group-text" for="inputGroupSelect01">해쉬 태그 검색</label>
                     <input id = "search_input" type="text" class="form-control" placeholder="#tag" aria-label="Recipient's username" aria-describedby="basic-addon2">
@@ -241,22 +245,23 @@
                     </div>
                 </div>
 
+                <!-- 포스팅 카드 -->
                 <div id="cards" class="cards">
+                    <!-- 포스팅 길이만큼 반복 -->
                     {% for i in range(post|length) %}
-                        <a style="color: white">   .</a>
-                        {% if i % 2 == 0 %}
-                            <h3>
-
-                            </h3>
-
-
+                        <a style="color: white">   .</a>    {#공백 조절#}
+                        {% if i % 2 == 0 %}        {#사진 | 내용 형식 카드#}
                             <div class="card-group review_card">
+                                <!-- 사진 -->
                                 <img class="card-img-top review_card_photo"  src="{{ post[i].img }}" alt="Card image cap">
+                                <!-- 내용 -->
                                 <div class="card mb-3 review_card">
                                     <div class="card-body review_card_content">
                                         <h5 class="card-title" style="cursor: pointer" onclick="window.location.href = '/detail?title={{ post[i].title }}'">{{ post[i].title }}   </h5>
                                         <p class="card-text"><small class="text-muted">{{ post[i].add}}</small></p>
                                         <p class="card-text">{{ post[i].desc}}   </p>
+
+                                        <!-- 프로필 사진을 위한 반복문 -->
                                         {% for u in range(all_user_info|length) %}
                                             {% if all_user_info[u].username == post[i].id %}
                                                 <p class="card-text"><small class="text-muted"><img class="user_icon" src="{{ url_for('static', filename=all_user_info[u].profile_pic_real) }}">{{ post[i].id}}</small></p>
@@ -264,8 +269,9 @@
                                             {% endif %}
                                         {% endfor %}
 
-
+                                        <!-- 좋아요와 해쉬태그 -->
                                         <div class ="likeNtag">
+                                        <!-- 현재 계정의 좋아요 여부에 따른 아이콘 설정 -->
                                         {% if(id in post[i].like) %}
                                             <button id="btn-unlike" onclick="unlike_post('{{ post[i].title }}')" class="btn btn-sparta btn-lg like_logo"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button>
                                             <a>{{ post[i].like|length }} Like</a>
@@ -273,8 +279,6 @@
                                             <button id="btn-like" onclick="like_post('{{ post[i].title }}')" class="btn btn-sparta btn-lg like_logo"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></button>
                                             <a>{{ post[i].like|length }} Like</a>
                                         {% endif %}
-
-
 
                                         <p class="card-text"><small class="text-muted">{{ post[i].tag }}</small></p>
                                         </div>
@@ -285,10 +289,11 @@
                         {% endif %}
 
 
-                        {% if i % 2 == 1 %}
+                        {% if i % 2 == 1 %}     {#내용 | 사진 형식 카드#}
                             <div class="card-group review_card">
                                 <div class="card mb-3">
                                     <div class="card-body review_card_content">
+                                        <!-- 내용 -->
                                         <h5 class="card-title" style="cursor: pointer" onclick="window.location.href = '/detail?title={{ post[i].title }}'">{{ post[i].title }}</h5>
                                         <p class="card-text"><small class="text-muted">{{ post[i].add}}</small></p>
                                         <p class="card-text">{{ post[i].desc}}</p>
@@ -299,6 +304,7 @@
                                             {% endif %}
                                         {% endfor %}
 
+                                        <!-- 좋아요와 해쉬태그 -->
                                         <div class ="likeNtag">
                                         {% if(id in post[i].like) %}
                                             <button id="btn-unlike" onclick="unlike_post('{{ post[i].title }}')" class="btn btn-sparta btn-lg like_logo"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button>
@@ -310,9 +316,9 @@
 
                                         <p class="card-text"><small class="text-muted">{{ post[i].tag}}</small></p>
                                         </div>
-
                                     </div>
                                 </div>
+                                <!-- 사진 -->
                                 <img class="card-img-top review_card_photo"  src="{{ post[i].img }}" alt="Card image cap">
 
                             </div>
