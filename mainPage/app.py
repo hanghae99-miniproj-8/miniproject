@@ -140,6 +140,7 @@ def create():
 
 @app.route('/create/save', methods=['POST'])
 def save():
+    # /create페이지에서 ajax로 요청한 정보들을 받는 곳
     user_receive = request.form["user_give"]
     title_receive = request.form["title_give"]
     add_receive = request.form["add_give"]
@@ -147,7 +148,9 @@ def save():
     desc_receive = request.form["desc_give"]
     tag_receive = request.form["tag_give"]
 
-
+    # db에 저장하기 위해 딕셔너리 형태로 정리
+    # 이 때 해시태그의 경우 배열로 되어있기에 추후 사용하기에
+    # 접근성이 떨어지기에 split함수를 통해 나누어줌
     doc={
         'id' : user_receive,
         'title' : title_receive,
@@ -158,6 +161,7 @@ def save():
         'like' : []
 
     }
+    # db.review에 넣어주기
     db.review.insert_one(doc)
 
     return jsonify({'result': 'success', 'msg': '입력 완료'})
@@ -188,6 +192,8 @@ def unlike_post():
 
 @app.route('/detail')
 def detail():
+    # 포스팅 상세 페이지로 접속하기 위해서
+    # 각 포스팅에 제목에 해당하는 title을 받아옴
     title = request.args.get("title")
     token_receive = request.cookies.get('mytoken')
     try:
@@ -197,9 +203,15 @@ def detail():
         user_info = db.users.find_one({"username": payload["id"]})
 
         id = (user_info['username'])
+        # 받아온 타이틀에 해당하는 db의 정보를 받아와 post에
+        # 딕셔너리 형태로 할당함
+        # 이 때 titlt을 사용한 이유는 제목이 다른 요소들처럼 겹치는 일이
+        # 거의 없으면서도 포스팅 전체 내용을 접근할 수 있었기 때문
+        # 아직 제목 내용이 같다면 처리할 방식을 구현하지는 못함
         post = list(db.review.find({"title": title}, {"_id": False}))
         print(post)
-
+        # post에 할당된 정보들을 상세페이지가 렌더링 될 때
+        # jinja2로 이용할 수 있도록 post라는 이름으로 정보를 넘겨줌
         return render_template("detail.html", id=id, post = post)
 
     except jwt.ExpiredSignatureError:
