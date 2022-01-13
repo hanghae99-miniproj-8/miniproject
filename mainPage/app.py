@@ -102,7 +102,7 @@ def main():
             post = list(db.review.find({"tag": {"$regex": tag}}, {"_id": False}))
         like = list(db.like.find({'id': id}, {"_id": False}))
 
-        return render_template("main.html", id=id, post=post, like=like)
+        return render_template("main.html", id=id, post=post, like=like, user_info=user_info)
 
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
@@ -204,6 +204,25 @@ def detail():
         return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
     return render_template("detail.html")
 
+@app.route('/user')
+def user():
+    title = request.args.get("title")
+    token_receive = request.cookies.get('mytoken')
+    try:
+
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+
+        user_info = db.users.find_one({"username": payload["id"]})
+
+
+
+        return render_template("user.html", id=id, user_info = user_info, )
+
+    except jwt.ExpiredSignatureError:
+        return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
+    except jwt.exceptions.DecodeError:
+        return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
+    return render_template("detail.html")
 
 
 if __name__ == '__main__':

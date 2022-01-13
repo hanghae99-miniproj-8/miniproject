@@ -166,6 +166,10 @@
             flex-direction: column;
             overflow: auto;
         }
+        .user_icon{
+            max-height: 30px;
+            max-width: 30px;
+        }
 
 
     </style>
@@ -227,7 +231,7 @@
                 <div>
                     <a class="logo" onclick="window.location.href = '/main'">Travela</a>
                     <button type="button" onclick="sign_out()" class="btn btn-outline-danger logout">Logout</button>
-                    <span class="user_data">{{ id }}</span>
+                    <span class="user_data" onclick="window.location.href = '/user'" style="cursor: pointer;">{{ id }}</span>
                     <button type="button" onclick="window.location.href = '/create'" class="btn btn-outline-danger write_review">리뷰 쓰기</button>
                 </div>
             </div>
@@ -251,7 +255,7 @@
                                         <h5 class="card-title" style="cursor: pointer" onclick="window.location.href = '/detail?title={{ post[i].title }}'">{{ post[i].title }}   </h5>
                                         <p class="card-text"><small class="text-muted">{{ post[i].add}}</small></p>
                                         <p class="card-text">{{ post[i].desc}}</p>
-                                        <p class="card-text"><small class="text-muted">{{ post[i].id}}</small></p>
+                                        <p class="card-text"><small class="text-muted"><img class="user_icon" src="{{ url_for('static', filename=user_info.profile_pic_real) }}">{{ post[i].id}}</small></p>
 
 
                                         {% if(id in post[i].like) %}
@@ -279,7 +283,7 @@
                                         <h5 class="card-title" style="cursor: pointer" onclick="window.location.href = '/detail?title={{ post[i].title }}'">{{ post[i].title }}</h5>
                                         <p class="card-text"><small class="text-muted">{{ post[i].add}}</small></p>
                                         <p class="card-text">{{ post[i].desc}}</p>
-                                        <p class="card-text"><small class="text-muted">{{ post[i].id}}</small></p>
+                                        <p class="card-text"><small class="text-muted"><img class="user_icon" src="{{ url_for('static', filename=user_info.profile_pic_real) }}">{{ post[i].id}}</small></p>
 
 
                                         {% if(id in post[i].like) %}

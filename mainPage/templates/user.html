@@ -2,9 +2,12 @@
 <html lang="en">
 <head>
 
-   <meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Travela</title>
+
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -33,7 +36,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
-
 
 
     <style>
@@ -109,33 +111,6 @@
             padding-top: 3.25rem;
         }
 
-        .section {
-            padding: 1rem 1.5rem;
-            max-width: 750px;
-            margin: auto;
-        }
-
-        .is-sparta {
-            color: #e8344e !important;
-        }
-
-        .button.is-sparta {
-            background-color: #e8344e;
-            border-color: transparent;
-            color: #fff !important;
-        }
-
-        .button.is-sparta.is-outlined {
-            background-color: transparent;
-            border-color: #e8344e;
-            color: #e8344e !important;
-        }
-
-        .modal-content {
-            width: 600px;
-            max-width: 80%;
-        }
-
         input::-webkit-calendar-picker-indicator {
             display: none;
         }
@@ -144,6 +119,31 @@
             object-fit: cover;
             width: 100%;
             height: 100%;
+        }
+
+        .info-card {
+            margin: 100px;
+
+        }
+
+        .image {
+            width: 200px;
+
+            margin: 100px 50px 15px 100px;
+
+            border-radius: 20px
+        }
+
+        .info {
+            padding-top: 50PX;
+            border-radius: 50px;
+            border-color: white;
+            margin-top: 100px;
+
+        }
+
+        .update {
+            margin-left: 250px;
         }
     </style>
 
@@ -154,6 +154,34 @@
             window.location.href = "/login"
         }
 
+        function update_profile() {
+            let name = $('#input-name').val()
+            let nick = $('#input-nick').val()
+            let file = $('#input-pic')[0].files[0]
+            let about = $("#textarea-about").val()
+            let form_data = new FormData()
+            form_data.append("file_give", file)
+            form_data.append("name_give", name)
+            form_data.append("nick_give", nick)
+            form_data.append("about_give", about)
+            console.log(name, nick, file, about, form_data)
+
+            $.ajax({
+                type: "POST",
+                url: "/update_profile",
+                data: form_data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    if (response["result"] == "success") {
+                        alert(response["msg"])
+                        window.location.reload()
+
+                    }
+                }
+            });
+        }
 
 
     </script>
@@ -167,9 +195,102 @@
             <a class="logo" onclick="window.location.href = '/main?id={{ id }}'">Travela</a>
             <button type="button" onclick="sign_out()" class="btn btn-outline-danger logout">Logout
             </button>
-            <span class="user_data">{{ id }}</span>
+            <span class="user_data">{{ user_info.profile_name }}</span>
         </div>
     </div>
+    <div class="card-group info-card">
+        <img class="card-img-top image" src="{{ url_for('static', filename=user_info.profile_pic_real) }}">
+        <div class="card-body info">
+            <p>
+            <h6>ID : {{ user_info.profile_name }}</h6>
+            </p>
+            <p>
+            <h6>닉네임 : {{ user_info.nick }}</h6>
+            </p>
+            <p>
+            <h6>간단한 설명 : {{ user_info.profile_info }}</h6>
+            </p>
+        </div>
+    </div>
+    <button type="button" class="btn btn-outline-dark update" onclick='$("#modal-edit").addClass("is-active")'>
+        프로필 수정<span class="icon is-small"><i class="fa fa-pencil" aria-hidden="true"></i></span></button>
+
+
+    <div class="modal" id="modal-edit">
+        <div class="modal-background" onclick='$("#modal-edit").removeClass("is-active")'></div>
+        <div class="modal-content">
+            <div class="box">
+                <article class="media">
+                    <div class="media-content">
+                        <div class="field">
+                            <label class="label" for="input-name">이름</label>
+
+                            <p class="control">
+
+                                <input id="input-name" class="input"
+                                       placeholder="name" value="{{ user_info.profile_name }}">
+                            </p>
+                        </div>
+                        <div class="field">
+                            <label class="label" for="input-nick">닉네임</label>
+
+                            <p class="control">
+
+                                <input id="input-nick" class="input"
+                                       placeholder="nick" value="{{ user_info.nick }}">
+                            </p>
+                        </div>
+                        <div class="field">
+                            <label class="label" for="input-pic">프로필 사진</label>
+
+                            <div class="control is-expanded">
+                                <div class="file has-name">
+                                    <label class="file-label" style="width:100%">
+                                        <input id="input-pic" class="file-input" type="file"
+                                               name="resume">
+                                        <span class="file-cta"><span class="file-icon"><i
+                                                class="fa fa-upload"></i></span>
+                                <span class="file-label">파일 선택</span>
+                            </span>
+                                        <span id="file-name" class="file-name"
+                                              style="width:100%;max-width:100%">{{ user_info.profile_pic }}</span>
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label" for="textarea-about">간단한 설명</label>
+
+                            <p class="control">
+
+                        <textarea id="textarea-about" class="textarea"
+                                  placeholder="간단한 설명">{{ user_info.profile_info }}</textarea>
+                            </p>
+                        </div>
+                        <nav class="level is-mobile">
+                            <div class="level-left">
+
+                            </div>
+                            <div class="level-right">
+                                <div class="level-item">
+                                    <a class="button is-sparta" onclick="update_profile()">업데이트</a>
+                                </div>
+                                <div class="level-item">
+                                    <a class="button is-sparta is-outlined"
+                                       onclick='$("#modal-edit").removeClass("is-active")'>취소</a>
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
+                </article>
+            </div>
+        </div>
+        <button class="modal-close is-large" aria-label="close"
+                onclick='$("#modal-edit").removeClass("is-active")'></button>
+    </div>
+
+
 </div>
 
 
