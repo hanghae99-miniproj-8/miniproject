@@ -179,7 +179,7 @@
     <div class="jumbotron">
         <div class="card" style="width: 40rem;">
 
-            <img class="card-img-top" src='{{ post[0].img }}' alt="Card image cap">
+            <img class="card-img-top" src="{{ url_for('static', filename=post[0].img) }}" alt="Card image cap">
         </div>
         <!--제목,작성자아이디,리뷰,해쉬태그,주소 렌더링 될 때 전달받은 post를 이용하여 jinja2로 접근 및 사용 -->
         <div class="card tae">

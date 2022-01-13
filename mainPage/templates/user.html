@@ -20,11 +20,8 @@
     <!-- font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Gugi&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dongle&family=Gowun+Dodum&family=Gugi&family=Salsa&display=swap" rel="stylesheet">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Salsa&display=swap" rel="stylesheet">
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -40,7 +37,7 @@
 
     <style>
         * {
-            font-family: 'Gugi', cursive;
+             font-family: 'Gowun Dodum', sans-serif;
         }
 
         .wrap {
@@ -151,7 +148,9 @@
         //로그아웃 함수
         //토큰을 제거해서 로그아웃을 해준다.
         function sign_out() {
-            $.removeCookie('mytoken', {path: '/'});
+            $.removeCookie('mytoken', {path: '/main'});
+            $.removeCookie('mytoken', {path: '/create'});
+            $.removeCookie('mytoken', {path: '/detail'});
             alert('로그아웃!')
             window.location.href = "/login"
         }
@@ -172,7 +171,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "/update_profile",
+                url: "/user/update_profile",
                 data: form_data,
                 cache: false,
                 contentType: false,
