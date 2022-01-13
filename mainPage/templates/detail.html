@@ -28,6 +28,11 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
+
+    {#cookie remove를 위한 선언#}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+
     <style>
         * {
             font-family: 'Gugi', cursive;
@@ -153,13 +158,25 @@
         }
 
     </style>
+
+    <script>
+
+        function sign_out() {
+            $.removeCookie('mytoken', {path: '/main'});
+            $.removeCookie('mytoken', {path: '/create'});
+            $.removeCookie('mytoken', {path: '/detail'});
+            alert('로그아웃!')
+            window.location.href = "/login"
+        }
+    </script>
+
 </head>
 <body>
 <div class="wrap">
     <div class="banner">
         <div>
             <a class="logo" onclick="window.location.href = '/main'">Travela</a>
-            <button type="button" class="btn btn-outline-danger logout">Logout</button>
+            <button type="button" onclick="sign_out()" class="btn btn-outline-danger logout">Logout</button>
             <span class="user_data" id="userid">{{ id }}</span>
         </div>
     </div>

@@ -33,6 +33,9 @@
                 integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
                 crossorigin="anonymous"></script>
 
+        {#cookie remove를 위한 선언#}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
     </head>
 
     <style>
@@ -100,7 +103,7 @@
         }
         .today_index{
             background: white;
-            margin: 0 200px 0 200px;
+            margin: auto;
         }
         .write_review{
             width: 200px;
@@ -135,7 +138,8 @@
         }
 
         .review_card_photo{
-            width: 400px;
+            max-width: 400px;
+            max-height: 350px;
 
             margin: 0 20px 15px 20px;
 
@@ -156,6 +160,11 @@
         .like_logo{
             position: relative;
             bottom : 10px;
+        }
+        .cards{
+            display: flex;
+            flex-direction: column;
+            overflow: auto;
         }
 
 
@@ -190,10 +199,16 @@
                 }
             })
         }
-        function logout(){
-            $.cookie.delete('mytoken')
 
+        function sign_out() {
+            $.removeCookie('mytoken', {path: '/main'});
+            $.removeCookie('mytoken', {path: '/create'});
+            $.removeCookie('mytoken', {path: '/detail'});
+            alert('로그아웃!')
+            window.location.href = "/login"
         }
+
+
 
         function search_tag(){
             console.log($("#search_input").val());
@@ -211,7 +226,7 @@
             <div class="banner">
                 <div>
                     <a class="logo" onclick="window.location.href = '/main'">Travela</a>
-                    <button type="button" onclick="logout()" class="btn btn-outline-danger logout">Logout</button>
+                    <button type="button" onclick="sign_out()" class="btn btn-outline-danger logout">Logout</button>
                     <span class="user_data">{{ id }}</span>
                     <button type="button" onclick="window.location.href = '/create'" class="btn btn-outline-danger write_review">리뷰 쓰기</button>
                 </div>
@@ -225,7 +240,7 @@
                     </div>
                 </div>
 
-                <div id="cards">
+                <div id="cards" class="cards">
                     {% for i in range(post|length) %}
                         <a style="color: white">   .</a>
                         {% if i % 2 == 0 %}
