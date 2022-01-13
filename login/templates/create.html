@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Travela</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+
+    <!-- font -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gugi&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Salsa&display=swap" rel="stylesheet">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+    {#cookie remove를 위한 선언#}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+
+</head>
+
+<style>
+    * {
+        font-family: 'Gugi', cursive;
+    }
+
+    .wrap {
+        background-color: white;
+        min-height: 100vh;
+        padding-bottom: 50px;
+
+
+    }
+
+    .banner {
+        width: 100%;
+        height: 100px;
+
+        background-color: RGBA(232, 52, 78, 0.2);
+
+
+    }
+
+    .logo {
+
+        height: 90px;
+        font-family: 'Salsa', cursive;
+
+        position: absolute;
+        top: 5px;
+        left: 10px;
+
+        font-size: 60px;
+
+        cursor: pointer;
+
+    }
+
+    .logout {
+        width: 200px;
+        height: 70px;
+
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        border: solid 3px RGBA(232, 52, 78, 0.2);
+
+
+        font-size: 20px;
+        text-align: center;
+
+
+    }
+
+    .user_data {
+        width: 200px;
+        height: 70px;
+
+        position: absolute;
+        top: 30px;
+        right: 250px;
+
+
+        font-size: 30px;
+        color: black;
+        text-align: center;
+
+    }
+
+    .today_index {
+        background: white;
+        margin: 0 200px 0 200px;
+    }
+
+    .write_review {
+        width: 200px;
+        height: 70px;
+
+        position: absolute;
+        top: 15px;
+        right: 500px;
+        border: solid 3px RGBA(232, 52, 78, 0.2);
+
+
+        font-size: 20px;
+        text-align: center;
+
+    }
+
+    .txtBox {
+        width: 1000px;
+        height: 200px;
+        font-size: 2rem;
+
+        margin: auto 10px 30px 20px;
+
+    }
+    .input_space{
+        background: white;
+        margin: 0 200px 0 200px;
+    }
+    .input_title{
+        width: 900px;
+        height: 60px;
+
+        padding: 10px;
+        margin: 50px auto 5px  10px;
+    }
+    .input_location{
+        width: 900px;
+        height: 60px;
+
+        padding: 10px;
+        margin: 10px 0% 2px  10px;
+    }
+    .input_tag{
+        width: 900px;
+        height: 60px;
+
+        padding: 10px;
+        margin: 10px 0% 2px  10px;
+    }
+    .input_photo{
+        width: 900px;
+        height: 60px;
+
+        padding: 10px;
+        margin: 10px auto 5px  10px;
+    }
+
+
+</style>
+
+<script>
+    function save() {
+        let title = $("#title").val();
+        let add_url = $("#add_url").val();
+        let img_url = $("#img_url").val();
+        let desc = $("#desc").val();
+        let tag = $("#tag").val();
+
+
+        $.ajax({
+            type: "POST",
+            url: "/create/save",
+            data: {
+                user_give: '{{ id }}',
+                title_give: title,
+                add_give: add_url,
+                img_give: img_url,
+                desc_give: desc,
+                tag_give: tag
+            },
+            success: function (response) {
+                alert(response["msg"]);
+                window.location.href="/main"
+            }
+        })
+    }
+
+            function sign_out() {
+            $.removeCookie('mytoken', {path: '/main'});
+            $.removeCookie('mytoken', {path: '/create'});
+            $.removeCookie('mytoken', {path: '/detail'});
+            alert('로그아웃!')
+            window.location.href = "/login"
+        }
+
+</script>
+
+
+
+<body>
+<div class="wrap">
+    <div class="banner">
+        <div>
+            <a class="logo" onclick="window.location.href = '/main'">Travela</a>
+            <button type="button" onclick="sign_out()" class="btn btn-outline-danger logout">Logout</button>
+            <span class="user_data"  id="userid">{{ id }}</span>
+            <button type="button" onclick="save()" class="btn btn-outline-danger write_review">저장하기</button>
+        </div>
+    </div>
+    <div class="input_space">
+        <div class="input-group input-group-sm mb-3 input_title">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-lg">제목</span>
+            </div>
+            <input id="title" type="text" class="form-control" aria-label="Large"
+                   aria-describedby="inputGroup-sizing-sm">
+        </div>
+        <div class="input-group input-group-sm mb-3 input_location">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-sm">위치</span>
+            </div>
+            <input type="text" id="add_url" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+        </div>
+        <div class="input-group input-group-sm mb-3 input_photo">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-sm">사진</span>
+            </div>
+            <input type="text" id="img_url" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+        </div>
+
+        <textarea id="desc" class="txtBox"></textarea>
+        <div class="input-group input-group-sm mb-3 input_tag">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-sm">해쉬태그</span>
+            </div>
+            <input type="text" id="tag" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>
